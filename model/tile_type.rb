@@ -11,5 +11,6 @@ module TileType
   TOP_HEADED_T = 9
   BOTTOM_HEADED_T = 10
   CROSSROADS = 11
-  COUNT = 12
+  UNKNOWN = 12
+  COUNT = 13
 end

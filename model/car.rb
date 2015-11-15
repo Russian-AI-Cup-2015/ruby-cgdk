@@ -49,6 +49,9 @@ class Car < RectangularUnit
   attr_reader :wheel_turn
 
   # @return [Integer]
+  attr_reader :next_waypoint_index
+
+  # @return [Integer]
   attr_reader :next_waypoint_x
 
   # @return [Integer]
@@ -82,14 +85,15 @@ class Car < RectangularUnit
   # @param [Float] durability
   # @param [Float] engine_power
   # @param [Float] wheel_turn
+  # @param [Integer] next_waypoint_index
   # @param [Integer] next_waypoint_x
   # @param [Integer] next_waypoint_y
   # @param [TrueClass, FalseClass] finished_track
   def initialize(id, mass, x, y, speed_x, speed_y, angle, angular_speed, width, height, player_id, teammate_index,
                  teammate, type, projectile_count, nitro_charge_count, oil_canister_count,
                  remaining_projectile_cooldown_ticks, remaining_nitro_cooldown_ticks, remaining_oil_cooldown_ticks,
-                 remaining_nitro_ticks, remaining_oiled_ticks, durability, engine_power, wheel_turn, next_waypoint_x,
-                 next_waypoint_y, finished_track)
+                 remaining_nitro_ticks, remaining_oiled_ticks, durability, engine_power, wheel_turn,
+                 next_waypoint_index, next_waypoint_x, next_waypoint_y, finished_track)
     super(id, mass, x, y, speed_x, speed_y, angle, angular_speed, width, height)
 
     @player_id = player_id
@@ -107,6 +111,7 @@ class Car < RectangularUnit
     @durability = durability
     @engine_power = engine_power
     @wheel_turn = wheel_turn
+    @next_waypoint_index = next_waypoint_index
     @next_waypoint_x = next_waypoint_x
     @next_waypoint_y = next_waypoint_y
     @finished_track = finished_track

@@ -49,7 +49,7 @@ class RemoteProcessClient
 
   def write_protocol_version_message
     write_enum(MessageType::PROTOCOL_VERSION)
-    write_int(1)
+    write_int(2)
   end
 
   def read_game_context_message
@@ -136,7 +136,7 @@ class RemoteProcessClient
     Car::new(read_long, read_double, read_double, read_double, read_double, read_double, read_double, read_double,
              read_double, read_double, read_long, read_int, read_boolean, read_enum(CarType), read_int, read_int,
              read_int, read_int, read_int, read_int, read_int, read_int, read_double, read_double, read_double,
-             read_int, read_int, read_boolean)
+             read_int, read_int, read_int, read_boolean)
   end
 
   def write_car(car)
@@ -170,6 +170,7 @@ class RemoteProcessClient
       write_double(car.durability)
       write_double(car.engine_power)
       write_double(car.wheel_turn)
+      write_int(car.next_waypoint_index)
       write_int(car.next_waypoint_x)
       write_int(car.next_waypoint_y)
       write_boolean(car.finished_track)
@@ -579,8 +580,9 @@ class RemoteProcessClient
     end
 
     World::new(read_int, read_int, read_int, read_int, read_int, read_players, read_cars, read_projectiles,
-               read_bonuses, read_oil_slicks, @map_name.nil? ? @map_name = read_string : @map_name,
-               @tiles_x_y.nil? ? @tiles_x_y = read_enums_2d(TileType) : @tiles_x_y,
+               read_bonuses, read_oil_slicks,
+               @map_name.nil? ? @map_name = read_string : @map_name,
+               read_tiles_x_y,
                @waypoints.nil? ? @waypoints = read_ints_2d : @waypoints,
                @starting_direction.nil? ? @starting_direction = read_enum(Direction) : @starting_direction)
   end
@@ -633,6 +635,16 @@ class RemoteProcessClient
         write_world(world)
       end
     end
+  end
+
+  def read_tiles_x_y
+    new_tiles_x_y = read_enums_2d(TileType)
+
+    if not new_tiles_x_y.nil? and new_tiles_x_y.length > 0
+      @tiles_x_y = new_tiles_x_y
+    end
+
+    @tiles_x_y
   end
 
   def ensure_message_type(actual_type, expected_type)
